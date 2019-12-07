@@ -1,0 +1,69 @@
+{ 
+   "id":2,
+   "ingredients":[ 
+      { 
+         "amount":0.5,
+         "ingredient":"roasted and peeled beet",
+         "unit":null
+      },
+      { 
+         "amount":1,
+         "ingredient":"white sugar",
+         "unit":"tablespoon"
+      },
+      { 
+         "amount":1,
+         "ingredient":"baking powder",
+         "unit":"teaspoon"
+      },
+      { 
+         "amount": 1,
+         "ingredient":"salt",
+         "unit":"pinch"
+      },
+      { 
+         "amount": 0.33,
+         "ingredient":"plain Greek yogurt",
+         "unit":"cup"
+      },
+      { 
+         "amount":0.67,
+         "ingredient":"almond milk",
+         "unit":"cup"
+      },
+      { 
+         "amount":1,
+         "ingredient":"egg",
+         "unit":null
+      },
+      { 
+         "amount":1,
+         "ingredient":"butter, melted",
+         "unit":"tablespoon"
+      },
+      { 
+         "amount":0.67,
+         "ingredient":"all purpose flour",
+         "unit":"cup"
+      },
+      { 
+         "amount":1,
+         "ingredient":"vanilla extract",
+         "unit":"teaspoon"
+      },
+      { 
+         "amount":0.33,
+         "ingredient":"quick oats",
+         "unit":"cup"
+      }
+   ],
+   "instructions":[ 
+      "Preheat a griddle to medium-low heat. Coat lightly with cooking spray or butter.",
+      "In a blender, puree beet with milk until no lumps remain. Add egg, oil, yogurt, and vanilla and blend just to combine.",
+      "Add flour, oats, baking powder, sugar, and salt on top. Pulse a few times or stir in with a spatula taking care not to over blend. Some lumps are good.",
+      "Spoon or pipe using a squeeze bottle onto griddle. When bubbles pop on the surface, flip and continue to cook until cooked through. Serve with butter, syrup, and berries. I like to eat my pancakes slathered with almond butter."
+   ],
+   "title":"Pink Beet Pancakes",
+   "time":"20 minutes",
+   "username":"Jer-meh"
+}

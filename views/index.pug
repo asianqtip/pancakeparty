@@ -1,0 +1,41 @@
+extends layout
+
+block content
+    div
+        if errors
+            each error in errors
+                div(class="alert alert-danger") #{ error }
+        if success
+            each s in success
+                div(class="alert alert-success") #{ s }
+
+        #carouselExampleIndicators.carousel.slide(data-ride='carousel')
+            div(class="carousal-item")
+              h2.carousel-caption Nobody stacks up to us
+              div(class="carousel-caption d-none d-md-block")
+                div
+                  h1.carousel-caption  Welcome to Pancake Party
+            ol.carousel-indicators
+                li.active(data-target='#carouselExampleIndicators' data-slide-to='0')
+                li(data-target='#carouselExampleIndicators' data-slide-to='1')
+                li(data-target='#carouselExampleIndicators' data-slide-to='2')
+                li(data-target='#carouselExampleIndicators' data-slide-to='3')
+                li(data-target='#carouselExampleIndicators' data-slide-to='4')
+            .carousel-inner
+                div.carousel-item.active
+                    img.d-block.w-100(src='/images/slide1.jpg' alt='First slide' style="width:100%; height: 800px")
+                div.carousel-item
+                    video.d-block.w-100(autoplay='' loop='' muted='' src='/images/pancakevid4.mp4' type='video/mp4' style="width:100%; height: 800px; object-fit: fill;")
+                div.carousel-item
+                    video.d-block.w-100(autoplay='' loop='' muted='' src='/images/pancakevid2.mp4' type='video/mp4' style="width:100%; height: 800px; object-fit: fill;")
+                div.carousel-item
+                    img.d-block.w-100(src='/images/slide2.jpg' alt='Second slide' style="width:100%; height: 800px")
+                div.carousel-item
+                    img.d-block.w-100(src='/images/slide3.jpeg' alt='Third slide' style="width:100%; height: 800px")
+            a.carousel-control-prev(href='#carouselExampleIndicators' role='button' data-slide='prev')
+                span.carousel-control-prev-icon(aria-hidden='true')
+                span.sr-only Previous
+            a.carousel-control-next(href='#carouselExampleIndicators' role='button' data-slide='next')
+                span.carousel-control-next-icon(aria-hidden='true')
+                span.sr-only Next
+    main(role="main" class="container")

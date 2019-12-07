@@ -1,0 +1,132 @@
+extends layout
+
+block content
+    main(role="main" class="container")
+        if errors
+            each error in errors
+                div(class="alert alert-danger") #{ error }
+        if success
+            each s in success
+                div(class="alert alert-success") #{ s }
+        h1= title
+        div(class="content-section")
+            form(method='POST' action='')
+                div.form-group
+                    label(for='rtitle') Recipe Title:
+                    input#rtitle.form-control(type='text' name='rtitle' value=Recipe.title required)
+                div.form-group
+                    label(for='esttime') Estimated Time to Complete (mins):
+                    input#esttime.form-control(type='number' name='esttime' value=Recipe.Etime required)
+                div.form-group
+                    h4 Ingredients:
+                    table(class=" table ingredients" id="ingredients")
+                        thead
+                            tr
+                                th Name
+                                th Quantity
+                                th Unit
+                                th Optional
+                        tbody
+                            each val in Recipe.ingredients
+                                tr
+                                    td
+                                        input(type="text" name="name" class="form-control" value=val.name required)
+                                    td
+                                        input(type="number" name="quantity" step=".01" class="form-control" value=val.quantity required)
+                                    td
+                                        select(name="unit" placeholder=val.unit required)
+                                            each value in ['teaspoon','tablespoon', 'fluid ounce','cup', 'pint','quart',' gallon','grams','ml']
+                                                if value == val.unit
+                                                    option(value=value selected)=value
+                                                else
+                                                    option(value=value)=value
+
+                                            if val.unit ==""
+                                                option(value="" selected) (none)
+                                            else
+                                                option(value="") (none)
+                                    td
+                                        input(type="hidden" name="optional"  value="")
+                                        if val.optional
+                                            input(type="checkbox" name="optional" class="form-control" checked)
+                                        else
+                                            input(type="checkbox" name="optional" class="form-control")
+                                    td
+                                        input(type="button" class="ibtnDel btn btn-md btn-danger "  value="Delete")
+
+                        tfoot
+                            tr
+                                td(colspan="5" style="text-align: left;")
+                                    input(type="button" class="btn btn-info add-new " id="addrow" value="Add Ingredient")
+                div.form-group
+                    h4 Instructions:
+                    table(class=" table instructions" id="instructions")
+                        thead
+                            tr
+                                th Steps:
+                                th Description
+                            tbody
+                                each val in Recipe.instructions
+                                        tr
+                                            td
+                                            td
+                                                input(type="text" name="description"  class="form-control" value=val.description required)
+                                            td
+                                                input(type="button" class="ibtnDel btn btn-md btn-danger "  value="Delete")
+                        tfoot
+                            tr
+                                td(colspan="5" style="text-align: left;")
+                                    input(type="button" class="btn btn-info add-new " id="addstep" value="Add Step")
+                if messages
+                    div#note(class="alert alert-danger") #{messages}
+
+                button(class="btn btn-lg btn-primary" type='submit' style="float: right") Submit
+        script.
+            $(document).ready(function () {
+                var counter = 1;
+                var counter2 = 1;
+
+                $("#addrow").on("click", function () {
+                    counter++;
+                    var newRow = $("<tr>");
+                    var cols = "";
+                    var items =  ['teaspoon', 'tablespoon', 'fluid ounce','cup', 'pint','quart',' gallon','grams','ml'];
+
+                    cols += '<td><input type="text" class="form-control" name="name' + '" required/></td>';
+                    cols += '<td><input type="number" class="form-control" step=".01" name="quantity'+'"required/></td>';
+                    cols += '<td><select name="unit" required>';
+                    for (value of items) {
+                        cols += '<option value="' + value + '">' + value + '</option>';
+                    }
+                    cols += '<option value=""> (none) </option>';
+                    cols += '</select></td>';
+                    cols += '<td><input type="checkbox" class="form-control" name="optional"'+ '/></td>';
+                    cols += '<td><input type="button" class="ibtnDel btn btn-md btn-danger "  value="Delete"></td>';
+                    newRow.append(cols);
+                    $('#ingredients tbody').append(newRow);
+
+                });
+
+
+                $('#ingredients tbody').on("click", ".ibtnDel", function (event) {
+                    $(this).closest("tr").remove();
+                    counter -= 1
+                });
+                $("#addstep").on("click", function () {
+                    counter2++;
+                    var newRow2 = $("<tr>");
+                    var cols2 = "";
+
+                    cols2 += '<td>'+ '</td>';
+                    cols2 += '<td><input type="text" class="form-control" name="description' + '" required/></td>';
+                    cols2 += '<td><input type="button" class="ibtnDel btn btn-md btn-danger "  value="Delete"></td>';
+                    newRow2.append(cols2);
+                    $('#instructions tbody').append(newRow2);
+                });
+
+                $('#instructions tbody').on("click", ".ibtnDel", function (event) {
+                    $(this).closest("tr").remove();
+                    counter2 -= 1
+                });
+
+            });

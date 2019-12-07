@@ -1,0 +1,105 @@
+extends layout
+
+block content
+    main(role="main" class="container")
+        //Receives recipes from browse.ts
+        if errors
+            each error in errors
+                div(class="alert alert-danger") #{ error }
+        if success
+            each s in success
+                div(class="alert alert-success") #{ s }
+        if Recipes
+            div(style="float: LEFT")
+                h3 Results for "#{query}"
+            div(style="float: right")
+                form(name='sort' method="POST" action= "/search")
+                    p Sort by: &nbsp;
+                        select(name ="sort" id="sorting" required)
+                            each value in ['Highest Likes','Highest Dislikes', 'Recipe Title A-Z','Recipe Title Z-A', 'default']
+                                if value == sort
+                                    option(value=value selected)=value
+                                else
+                                    option(data-query=query value=value)=value
+                            input(type="hidden" name="query"  value=query)
+                        input.btn.btn-info.btn-sm(type='submit' name='submit')
+            br
+            br
+            br
+            each recipe in Recipes
+                //Disassembles the recipes array and displays 'cards'
+                //corresponding to each recipe (as seen on website)
+                article(class="media content-section")
+                    img(class="rounded-circle article-img" src="/images/Avatar.png")
+                    div(class="media-body")
+                        div(id = "console-event" class="article-metadata")
+                            a(class="mr-2")
+                        div
+                            h2
+                                a(class="article-title") #{recipe.title}
+                                //div(style="float: right")
+                                    input(id="toggle-event" type="checkbox" checked data-toggle="toggle" data-on="Metric" data-off="US" data-onstyle="warning" data-offstyle="info" data-size="sm" onclick="convert('+ +')")
+                        h6(class="recipe-username") #{'by ' + recipe.username}
+                        p(class="recipe-time") #{'Est. completion time: ' + recipe.Etime + " mins" }
+                        ul
+                            each val in recipe.ingredients
+                                if val.optional
+                                    li= val.quantity + ' ' + (val.quantity > 1 && val.unit != "" ? val.unit + 's ' : (val.unit != null ? val.unit + ' ': '')) + val.name + ' optional'
+                                else
+                                    li= val.quantity + ' ' + (val.quantity > 1 && val.unit != "" ? val.unit + 's ' : (val.unit != null ? val.unit + ' ': '')) + val.name
+                        ol
+                            each val in recipe.instructions
+                                li= val.description
+                        if user
+                            div(style="float: right")
+                                button.btn.btn-warning( data-id=recipe._id id=recipe._id + "likebtn")
+                                    i.fa.fa-thumbs-up(aria-hidden=true)
+                                    span(class="likes" id = recipe._id + "like")     #{recipe.rating.Upvotes}
+                                button.btn.btn-basic(data-id=recipe._id id=recipe._id + "dislikebtn")
+                                    i.fa.fa-thumbs-down(aria-hidden=true)
+                                    span(class="dislikes" id=recipe._id + "dislike")   #{recipe.rating.Downvotes}
+                            script.
+                                window.onload = function () {
+                                    $('.btn-warning').on("click", function () {
+
+                                        //alert("ok");
+                                        var recipeid = $(this).data('id');
+                                        $.ajax({
+                                            url: "/like",
+                                            type: "POST",
+                                            dataType: 'json',
+                                            data: {id: recipeid},
+                                            success: function (data) {
+                                                document.getElementById(recipeid + "like").innerHTML = "    " + data;
+                                                document.getElementById(recipeid + "likebtn").disabled = true;
+                                            }
+                                        });
+                                    });
+                                    $(".btn-basic").on("click", function (e) {
+                                        e.preventDefault();
+                                        var recipeid = $(this).data('id');
+                                        $.ajax({
+                                            type: 'POST',
+                                            url: '/dislike',
+                                            dataType: 'json',
+                                            data: {id: recipeid},
+                                            success: function (data) {
+                                                document.getElementById(recipeid + "dislike").innerHTML = "    " + data;
+                                                document.getElementById(recipeid + "dislikebtn").disabled = true;
+                                            }
+                                        });
+                                    });
+
+                                }
+                        else
+                            div(style="float: right")
+                                button.btn.btn-warning( data-id=recipe._id id=recipe._id + "likebtn" disabled)
+                                    i.fa.fa-thumbs-up(aria-hidden=true)
+                                    span(class="likes" id = recipe._id + "like")     #{recipe.rating.Upvotes}
+                                button.btn.btn-basic(data-id=recipe._id id=recipe._id + "dislikebtn" disabled)
+                                    i.fa.fa-thumbs-down(aria-hidden=true)
+                                    span(class="dislikes" id=recipe._id + "dislike")   #{recipe.rating.Downvotes}
+
+        else
+            h3.
+                No matches found for "#{query}"

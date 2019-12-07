@@ -1,0 +1,54 @@
+extends layout
+block content
+    main(role="main" class="container")
+        if errors
+            each error in errors
+                div(class="alert alert-danger") #{ error }
+        if success
+            each s in success
+                div(class="alert alert-success") #{ s }
+        ul#myTab.nav.nav-tabs(role='tablist')
+            li.nav-item
+                a#myrecipes-tab.nav-link.active(data-toggle='tab' href='#recipe' role='tab' aria-controls='home' aria-selected='true') My Recipes
+            li.nav-item
+                a#myfav-tab.nav-link(data-toggle='tab' href='#favs' role='tab' aria-controls='profile' aria-selected='false') My Favourites
+        #myTabContent.tab-content
+            #recipe.tab-pane.fade.show.active(role='tabpanel' aria-labelledby='myrecipes-tab')
+
+                    each recipe in MyRecipes
+                        article(class="media content-section")
+                            img(class="rounded-circle article-img" src="/images/Avatar.png")
+                            div(class="media-body")
+                                h2
+                                    - var url = '/recipe/' + recipe._id
+                                    a(class="article-title" href=url) #{recipe.title}
+                                h6(class="recipe-username") #{'by ' + recipe.username}
+                                p(class="recipe-time") #{'Est. completion time: ' + recipe.Etime}
+                                ul
+                                    each val in recipe.ingredients
+                                        if val.optional
+                                            li= val.quantity + ' ' + (val.quantity > 1 && val.unit != "" ? val.unit + 's ' : (val.unit != null ? val.unit + ' ' : '')) + val.name + ' optional'
+                                        else
+                                            li= val.quantity + ' ' + (val.quantity > 1 && val.unit != "" ? val.unit + 's ' : (val.unit != null ? val.unit + ' ' : '')) + val.name
+                                ol
+                                    each val in recipe.instructions
+                                        li= val.description
+            #favs.tab-pane.fade(role='tabpanel' aria-labelledby='myfavtab')
+                each recipe in Favorites
+                    article(class="media content-section")
+                        img(class="rounded-circle article-img" src="/images/Avatar.png")
+                        div(class="media-body")
+                            h2
+                                - var url = '/recipe/' + recipe._id
+                                a(class="article-title" href=url) #{recipe.title}
+                            h6(class="recipe-username") #{'by ' + recipe.username}
+                            p(class="recipe-time") #{'Est. completion time: ' + recipe.Etime}
+                            ul
+                                each val in recipe.ingredients
+                                    if val.optional
+                                        li= val.quantity + ' ' + (val.quantity > 1 && val.unit != "" ? val.unit + 's ' : (val.unit != null ? val.unit + ' ' : '')) + val.name + ' optional'
+                                    else
+                                        li= val.quantity + ' ' + (val.quantity > 1 && val.unit != "" ? val.unit + 's ' : (val.unit != null ? val.unit + ' ' : '')) + val.name
+                            ol
+                                each val in recipe.instructions
+                                    li= val.description

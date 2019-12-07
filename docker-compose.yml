@@ -1,0 +1,19 @@
+version: "2"
+
+services:
+    web:
+        build: .
+        command: node ./bin/www
+        ports:
+            - "3000:3000"
+        links:
+            - mongo
+        environment:
+            ROOT_URL: "http://localhost"
+            MONGOLAB_URI: "mongodb+srv://pancake:party@cluster0-ftibv.mongodb.net/"
+
+    mongo:
+        image: mongo:latest
+        command: mongod
+        ports:
+            - "27017:27017"
