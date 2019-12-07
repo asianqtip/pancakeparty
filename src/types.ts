@@ -79,6 +79,21 @@ export class Recipe{
 }
 
 /**
+ * Format of Favorite-related data
+ *
+ * @class Favorite
+ */
+export class Favorite{
+    username:string;
+    RecipeTitle:string;
+    constructor(username:string, RecipeTitle:string)
+    {
+        this.username=username;
+        this.RecipeTitle=RecipeTitle;
+    }
+}
+
+/**
  * Format of Rating-related data
  *
  * @class Rating

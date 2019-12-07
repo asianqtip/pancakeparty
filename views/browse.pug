@@ -20,6 +20,14 @@ block content
                         div
                             h2
                                 a(class="article-title") #{recipe.title}
+                                if user
+                                    div(style="float: right")
+                                        button.btn.btn-danger(data-id=[user.Username, recipe.title, recipe._id] id=recipe._id + "favbtn")
+                                            i.fa.fa-heart(aria-hidden=true)
+                                else
+                                    div(style="float: right")
+                                        button.btn.btn-danger( id=recipe._id + "favbtn" disabled)
+                                            i.fa.fa-heart(aria-hidden=true)
 
                                     //input(id="toggle-event" type="checkbox" checked data-toggle="toggle" data-on="Metric" data-off="US" data-onstyle="warning" data-offstyle="info" data-size="sm" onclick="convert('+ +')")
                         h6(class="recipe-username") #{'by ' + recipe.username}
@@ -69,6 +77,21 @@ block content
                                             success: function (data) {
                                                 document.getElementById(recipeid + "dislike").innerHTML = "    " + data;
                                                 document.getElementById(recipeid + "dislikebtn").disabled = true;
+                                            }
+                                        });
+                                    });
+
+                                    $('.btn-danger').on("click", function () {
+
+                                        var recipeData = $(this).data('id');
+                                        var recipeid = recipeData[2];
+                                        $.ajax({
+                                            url: "/favorite",
+                                            type: "POST",
+                                            dataType: 'json',
+                                            data: {id: recipeData},
+                                            success: function () {
+                                                document.getElementById(recipeid + "favbtn").disabled = true;
                                             }
                                         });
                                     });

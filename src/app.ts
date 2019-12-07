@@ -19,6 +19,7 @@ import {LogoutRoute} from "./routes/logout";
 import {MyAccountRoute} from "./routes/myaccount";
 import {RecipeRoute} from "./routes/recipe";
 import {SearchRoute} from "./routes/search";
+import {FavoriteRoute} from "./routes/favorite";
 import {LikeRoute} from "./routes/like";
 import {DislikeRoute} from "./routes/dislike";
 
@@ -149,6 +150,7 @@ export class Server {
         MyAccountRoute.create(router);
         RecipeRoute.create(router);
         SearchRoute.create(router);
+        FavoriteRoute.create(router);
         LikeRoute.create(router);
         DislikeRoute.create(router);
         //use router middleware

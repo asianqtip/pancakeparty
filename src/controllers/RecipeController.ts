@@ -1,5 +1,5 @@
 import {Request, Response} from "express";
-import {Recipe, Ingredient, Instruction} from "../types";
+import {Recipe, Ingredient, Instruction, Favorite} from "../types";
 const ObjectId = require('mongodb').ObjectId;
 
 /** RecipeController()
@@ -145,10 +145,30 @@ class RecipeController{
                 res.status(400).redirect("/");
             })
     }
+
+    static favoriteRecipe ( req: Request, res: Response) {
+        DbClient.connect()
+            .then((db: any) => {
+                let favData = req.body.id;
+                let favorite = new Favorite(favData[0], favData[1]);
+                return db!.collection("Favorites").insertOne(favorite);
+            })
+            .then((response: any) =>{
+                //req.flash('success', 'Recipe added to Favorites!');
+                res.status(201).send(response);
+            })
+            .catch((err: any) => {
+                console.log(err);
+                req.flash('errors', 'Recipe Error');
+                res.redirect( "/");
+            })
+    }
+
     static likeRecipe ( req: Request, res: Response) {
         DbClient.connect()
             .then((db: any) => {
                 let o_id = new ObjectId(req.body.id);
+                console.log("AND THEN THIS");
                 return db!.collection("Recipes").findOneAndUpdate({_id: o_id }, {$inc: { "rating.Upvotes": 1}}, {returnOriginal: false});
             })
             .then((Recipe: any) => {

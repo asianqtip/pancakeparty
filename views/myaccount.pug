@@ -39,8 +39,7 @@ block content
                         img(class="rounded-circle article-img" src="/images/Avatar.png")
                         div(class="media-body")
                             h2
-                                - var url = '/recipe/' + recipe._id
-                                a(class="article-title" href=url) #{recipe.title}
+                                a(class="article-title") #{recipe.title}
                             h6(class="recipe-username") #{'by ' + recipe.username}
                             p(class="recipe-time") #{'Est. completion time: ' + recipe.Etime}
                             ul
