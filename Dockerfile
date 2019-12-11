@@ -5,9 +5,7 @@ WORKDIR /code
 
 COPY package.json .
 RUN npm install
-RUN npm install -g tsc \
-    && npm install -g concurrently \
-    && npm install -g typescript 
+RUN npm install -g tsc
 COPY . /src
 COPY . /public
 COPY . /views
